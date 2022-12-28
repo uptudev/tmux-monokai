@@ -42,12 +42,12 @@ get_load() {
 
 main() {
   # storing the refresh rate in the variable RATE, default is 5
-  RATE=$(get_tmux_option "@dracula-refresh-rate" 5)
-  cpu_load=$(get_tmux_option "@dracula-cpu-display-load" false)
+  RATE=$(get_tmux_option "@monokai-refresh-rate" 5)
+  cpu_load=$(get_tmux_option "@monokai-cpu-display-load" false)
   if [ "$cpu_load" = true ]; then
     echo "$(get_load)"
   else
-    cpu_label=$(get_tmux_option "@dracula-cpu-usage-label" "CPU")
+    cpu_label=$(get_tmux_option "@monokai-cpu-usage-label" "CPU")
     cpu_percent=$(get_percent)
     echo "$cpu_label $cpu_percent"
   fi

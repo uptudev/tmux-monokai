@@ -15,7 +15,7 @@ current_namespace=$(kubectl config view --minify --output 'jsonpath={.contexts[?
 main()
 {
   # storing the refresh rate in the variable RATE, default is 5
-  RATE=$(get_tmux_option "@dracula-refresh-rate" 5)
+  RATE=$(get_tmux_option "@monokai-refresh-rate" 5)
   OUTPUT_STRING=""
   if [ ! -z "$current_user" ]
   then

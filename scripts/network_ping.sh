@@ -3,8 +3,8 @@
 export LC_ALL=en_US.UTF-8
 
 # configuration
-# @dracula-ping-server "example.com"
-# @dracula-ping-rate 5
+# @monokai-ping-server "example.com"
+# @monokai-ping-rate 5
 
 current_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source $current_dir/utils.sh
@@ -12,9 +12,9 @@ source $current_dir/utils.sh
 ping_function() {
   case $(uname -s) in
   Linux | Darwin)
-    # storing the hostname/IP in the variable PINGSERVER, default is google.com
-    pingserver=$(get_tmux_option "@dracula-ping-server" "google.com")
-    pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk '{print $4}' | cut -d '/' -f 2)
+    # storing the hostname/IP in the variable PINGSERVER, default is 1.1.1.1 (Cloudflare)
+    pingserver=$(get_tmux_option "@monokai-ping-server" "1.1.1.1")
+    pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk '{print $4}' | cut -d '/' -f 2 | cut -c1-2)
     echo "$pingtime ms"
     ;;
 
@@ -27,7 +27,7 @@ ping_function() {
 main() {
 
   echo $(ping_function)
-  RATE=$(get_tmux_option "@dracula-ping-rate" 5)
+  RATE=$(get_tmux_option "@monokai-ping-rate" 5)
   sleep $RATE
 }
 

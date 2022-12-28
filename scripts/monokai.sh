@@ -7,38 +7,36 @@ source $current_dir/utils.sh
 
 main()
 {
-  datafile=/tmp/.dracula-tmux-data
+  datafile=/tmp/.monokai-tmux-data
 
   # set configuration option variables
-  show_fahrenheit=$(get_tmux_option "@dracula-show-fahrenheit" true)
-  show_location=$(get_tmux_option "@dracula-show-location" true)
-  fixed_location=$(get_tmux_option "@dracula-fixed-location")
-  show_powerline=$(get_tmux_option "@dracula-show-powerline" false)
-  show_flags=$(get_tmux_option "@dracula-show-flags" false)
-  show_left_icon=$(get_tmux_option "@dracula-show-left-icon" smiley)
-  show_left_icon_padding=$(get_tmux_option "@dracula-left-icon-padding" 1)
-  show_military=$(get_tmux_option "@dracula-military-time" false)
-  show_timezone=$(get_tmux_option "@dracula-show-timezone" true)
-  show_left_sep=$(get_tmux_option "@dracula-show-left-sep" )
-  show_right_sep=$(get_tmux_option "@dracula-show-right-sep" )
-  show_border_contrast=$(get_tmux_option "@dracula-border-contrast" false)
-  show_day_month=$(get_tmux_option "@dracula-day-month" false)
-  show_refresh=$(get_tmux_option "@dracula-refresh-rate" 5)
-  show_kubernetes_context_label=$(get_tmux_option "@dracula-kubernetes-context-label" "")
-  IFS=' ' read -r -a plugins <<< $(get_tmux_option "@dracula-plugins" "battery network weather")
+  show_fahrenheit=$(get_tmux_option "@monokai-show-fahrenheit" true)
+  show_location=$(get_tmux_option "@monokai-show-location" true)
+  fixed_location=$(get_tmux_option "@monokai-fixed-location")
+  show_powerline=$(get_tmux_option "@monokai-show-powerline" true)
+  show_flags=$(get_tmux_option "@monokai-show-flags" false)
+  show_left_icon=$(get_tmux_option "@monokai-show-left-icon" session)
+  show_left_icon_padding=$(get_tmux_option "@monokai-left-icon-padding" 0)
+  show_military=$(get_tmux_option "@monokai-military-time" false)
+  show_timezone=$(get_tmux_option "@monokai-show-timezone" true)
+  show_left_sep=$(get_tmux_option "@monokai-show-left-sep" )
+  show_right_sep=$(get_tmux_option "@monokai-show-right-sep" )
+  show_border_contrast=$(get_tmux_option "@monokai-border-contrast" false)
+  show_day_month=$(get_tmux_option "@monokai-day-month" false)
+  show_refresh=$(get_tmux_option "@monokai-refresh-rate" 5)
+  show_kubernetes_context_label=$(get_tmux_option "@monokai-kubernetes-context-label" "")
+  IFS=' ' read -r -a plugins <<< $(get_tmux_option "@monokai-plugins" "network-ping cpu-usage ram-usage")
 
-  # Dracula Color Pallette
-  white='#f8f8f2'
-  gray='#44475a'
-  dark_gray='#282a36'
-  light_purple='#bd93f9'
-  dark_purple='#6272a4'
-  cyan='#8be9fd'
-  green='#50fa7b'
-  orange='#ffb86c'
-  red='#ff5555'
-  pink='#ff79c6'
-  yellow='#f1fa8c'
+  # Monokai Pro Color Pallette  
+  white='#fcfcfa'
+  black='#2d2a2e'
+  gray='#727072'
+  red='#ff6188'
+  green='#a9dc76'
+  yellow='#ffd866'
+  blue='#78dce8'
+  magenta='#fc9867'
+  cyan='#ab9df2'
 
   # Handle left icon configuration
   case $show_left_icon in
@@ -83,8 +81,8 @@ main()
       flags=""
       current_flags="";;
     true)
-      flags="#{?window_flags,#[fg=${dark_purple}]#{window_flags},}"
-      current_flags="#{?window_flags,#[fg=${light_purple}]#{window_flags},}"
+      flags="#{?window_flags,#[fg=${cyan}]#{window_flags},}"
+      current_flags="#{?window_flags,#[fg=${cyan}]#{window_flags},}"
   esac
 
   # sets refresh interval to every 5 seconds
@@ -103,9 +101,9 @@ main()
 
   # pane border styling
   if $show_border_contrast; then
-    tmux set-option -g pane-active-border-style "fg=${light_purple}"
+    tmux set-option -g pane-active-border-style "fg=${green}"
   else
-    tmux set-option -g pane-active-border-style "fg=${dark_purple}"
+    tmux set-option -g pane-active-border-style "fg=${green}"
   fi
   tmux set-option -g pane-border-style "fg=${gray}"
 
@@ -117,10 +115,10 @@ main()
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "#[fg=${green},bg=${black}]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
     powerbg=${gray}
   else
-    tmux set-option -g status-left "#[bg=${green},fg=${dark_gray}]#{?client_prefix,#[bg=${yellow}],} ${left_icon}"
+    tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} "
   fi
 
   # Status right
@@ -129,53 +127,53 @@ main()
   for plugin in "${plugins[@]}"; do
 
     if [ $plugin = "git" ]; then
-      IFS=' ' read -r -a colors  <<< $(get_tmux_option "@dracula-git-colors" "green dark_gray")
+      IFS=' ' read -r -a colors  <<< $(get_tmux_option "@monokai-git-colors" "green black")
         script="#($current_dir/git.sh)"     
     fi
 
     if [ $plugin = "battery" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-battery-colors" "pink dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-battery-colors" "red black")
       script="#($current_dir/battery.sh)"
     fi
 
     if [ $plugin = "gpu-usage" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-gpu-usage-colors" "pink dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-gpu-usage-colors" "red black")
       script="#($current_dir/gpu_usage.sh)"
     fi
 
     if [ $plugin = "cpu-usage" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-cpu-usage-colors" "orange dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-cpu-usage-colors" "magenta black")
       script="#($current_dir/cpu_info.sh)"
     fi
 
     if [ $plugin = "ram-usage" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-ram-usage-colors" "cyan dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-ram-usage-colors" "yellow black")
       script="#($current_dir/ram_info.sh)"
     fi
 
     if [ $plugin = "network" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-network-colors" "cyan dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-network-colors" "blue black")
       script="#($current_dir/network.sh)"
     fi
 
     if [ $plugin = "network-bandwidth" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-network-bandwidth-colors" "cyan dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-network-bandwidth-colors" "blue black")
       tmux set-option -g status-right-length 250
       script="#($current_dir/network_bandwidth.sh)"
     fi
 
     if [ $plugin = "network-ping" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@dracula-network-ping-colors" "cyan dark_gray")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "gray white")
       script="#($current_dir/network_ping.sh)"
     fi
 
     if [ $plugin = "spotify-tui" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@dracula-spotify-tui-colors" "green dark_gray")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-spotify-tui-colors" "green black")
       script="#($current_dir/spotify-tui.sh)"
     fi
 
     if [ $plugin = "kubernetes-context" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@dracula-kubernetes-context-colors" "cyan dark_gray")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-kubernetes-context-colors" "blue black")
       script="#($current_dir/kubernetes_context.sh $show_kubernetes_context_label)"
     fi
 
@@ -186,12 +184,12 @@ main()
         sleep 0.01
       done
 
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-weather-colors" "orange dark_gray")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-weather-colors" "magenta black")
       script="#(cat $datafile)"
     fi
 
     if [ $plugin = "time" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@dracula-time-colors" "dark_purple white")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-time-colors" "green white")
       if $show_day_month && $show_military ; then # military time and dd/mm
         script="%a %d/%m %R ${timezone} "
       elif $show_military; then # only military time
@@ -211,16 +209,23 @@ main()
     fi
   done
 
-  # Window option
   if $show_powerline; then
-    tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${dark_purple}]${left_sep}#[fg=${white},bg=${dark_purple}] #I #W${current_flags} #[fg=${dark_purple},bg=${gray}]${left_sep}"
+    tmux set-option -ga status-right "#[fg=${green},bg=${yellow}]${right_sep}#[bg=${green},fg=${black},bold] #h #[bg=${black},fg=${green}]"
   else
-    tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${dark_purple}] #I #W${current_flags} "
+    tmux set-option -ga status-right "#[fg=${green},bg=${blue}]${right_sep}#[bg=${green},fg=${black},bold] #h "
   fi
 
-  tmux set-window-option -g window-status-format "#[fg=${white}]#[bg=${gray}] #I #W${flags}"
+  # Window option
+  if $show_powerline; then
+    tmux set-window-option -g window-status-current-format "#[bg=${white},fg=${gray}]${left_sep} #[fg=${black},bg=${white}]#I #W${current_flags} #[bg=${gray},fg=${white}]${left_sep}"
+  else
+    tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${white}] #I #W${current_flags} "
+  fi
+
+  tmux set-window-option -g window-status-format "#[bg=${gray},fg=${gray}]${left_sep} #[fg=${white},bg=${gray}]#I #W${flags} #[bg=${gray},fg=${gray}]${left_sep}"
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
+  tmux set-window-option -g window-status-separator ""
 }
 
 # run main function
