@@ -29,8 +29,8 @@ main()
 
   # Monokai Pro Color Pallette  
   white='#f8f8f2'
-  black='#e1ef1c'
-  gray='#75715e'
+  black='#1e1f1c'
+  gray='#272822'
   red='#f92672'
   green='#a6e22e'
   yellow='#f4bf75'
