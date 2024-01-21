@@ -28,15 +28,15 @@ main()
   IFS=' ' read -r -a plugins <<< $(get_tmux_option "@monokai-plugins" "network-ping cpu-usage ram-usage")
 
   # Monokai Pro Color Pallette  
-  white='#fcfcfa'
-  black='#2d2a2e'
-  gray='#727072'
-  red='#ff6188'
-  green='#a9dc76'
-  yellow='#ffd866'
-  blue='#78dce8'
-  magenta='#fc9867'
-  cyan='#ab9df2'
+  white='#f8f8f2'
+  black='#e1ef1c'
+  gray='#75715e'
+  red='#f92672'
+  green='#a6e22e'
+  yellow='#f4bf75'
+  blue='#66d9ef'
+  magenta='#ae81ff'
+  cyan='#35fff0'
 
   # Handle left icon configuration
   case $show_left_icon in
