@@ -35,14 +35,14 @@ main()
   show_empty_plugins=$(get_tmux_option "@monokai-show-empty-plugins" true)
 
   # Monokai Pro Color Pallette
-  white='#f8f8f2'
+  white='#f92672'
   black='#1e1f1c'
   gray='#272822'
   red='#f92672'
   green='#a6e22e'
   yellow='#f4bf75'
   blue='#66d9ef'
-  magenta='#ae81ff'
+  magenta='#f8f8f2'
   cyan='#35fff0'
 
   # Handle left icon configuration
