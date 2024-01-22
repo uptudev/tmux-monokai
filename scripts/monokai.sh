@@ -30,7 +30,7 @@ main()
   # Monokai Pro Color Pallette
   white='#f92672'
   black='#1e1f1c'
-  gray='#272822'
+  gray='none'
   red='#f92672'
   green='#a6e22e'
   yellow='#f4bf75'
@@ -115,7 +115,7 @@ main()
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[fg=${green}]#{?client_prefix,#[fg=${yellow}]}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "#[fg=${green},]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
     powerbg=${graywatch -n 3600 wttr.in}
   else
     tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} "
@@ -163,7 +163,7 @@ main()
     fi
 
     if [ $plugin = "network-ping" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "grey white")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "gray white")
       script="#($current_dir/network_ping.sh)"
     fi
 
