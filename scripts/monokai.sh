@@ -163,7 +163,7 @@ main()
     fi
 
     if [ $plugin = "network-ping" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "none white")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "default white")
       script="#($current_dir/network_ping.sh)"
     fi
 
