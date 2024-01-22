@@ -162,6 +162,11 @@ main()
       script="#($current_dir/network_bandwidth.sh)"
     fi
 
+    if [ $plugin = "network-ping" ]; then
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "none white")
+      script="#($current_dir/network_ping.sh)"
+    fi
+
     if [ $plugin = "spotify-tui" ]; then
       IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-spotify-tui-colors" "green black")
       script="#($current_dir/spotify-tui.sh)"
