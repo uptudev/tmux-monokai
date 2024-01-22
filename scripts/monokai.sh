@@ -222,7 +222,7 @@ main()
     tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${white}] #I #W${current_flags} "
   fi
 
-  tmux set-window-option -g window-status-format "#[bg=default,fg=none]${left_sep} #[fg=${white},bg=default]#I #W${flags} #[bg=default,fg=default]${left_sep}"
+  tmux set-window-option -g window-status-format "#[bg=default,fg=bg]${left_sep} #[fg=${white},bg=default]#I #W${flags} #[bg=default,fg=default]${left_sep}"
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
   tmux set-window-option -g window-status-separator ""
