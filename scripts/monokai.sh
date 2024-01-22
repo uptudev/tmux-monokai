@@ -152,7 +152,7 @@ main()
     fi
 
     if [ $plugin = "network" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-network-colors" "default black")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-network-colors" "blue black")
       script="#($current_dir/network.sh)"
     fi
 
@@ -163,7 +163,7 @@ main()
     fi
 
     if [ $plugin = "network-ping" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "gray white")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "default white")
       script="#($current_dir/network_ping.sh)"
     fi
 
