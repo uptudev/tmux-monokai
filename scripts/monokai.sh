@@ -27,7 +27,7 @@ main()
   show_kubernetes_context_label=$(get_tmux_option "@monokai-kubernetes-context-label" "")
   IFS=' ' read -r -a plugins <<< $(get_tmux_option "@monokai-plugins" "network-ping cpu-usage ram-usage")
 
-  # Monokai Pro Color Pallette  
+  # Monokai Pro Color Pallette
   white='#f92672'
   black='#1e1f1c'
   gray='#272822'
@@ -116,7 +116,7 @@ main()
   # Status left
   if $show_powerline; then
     tmux set-option -g status-left "#[fg=${green},bg=${black}]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
-    powerbg=${graywatch -n 3600 wttr.in}
+    powerbg=${gray}
   else
     tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} "
   fi
@@ -128,7 +128,7 @@ main()
 
     if [ $plugin = "git" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@monokai-git-colors" "green black")
-        script="#($current_dir/git.sh)"     
+        script="#($current_dir/git.sh)"
     fi
 
     if [ $plugin = "battery" ]; then
