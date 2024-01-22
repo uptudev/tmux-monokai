@@ -152,7 +152,7 @@ main()
     fi
 
     if [ $plugin = "network" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-network-colors" "none black")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-network-colors" "default black")
       script="#($current_dir/network.sh)"
     fi
 
