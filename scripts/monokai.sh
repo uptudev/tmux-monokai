@@ -115,7 +115,7 @@ main()
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[fg=${green},bg=${black}]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "#[fg=${green},]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
     powerbg=${graywatch -n 3600 wttr.in}
   else
     tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} "
@@ -210,7 +210,7 @@ main()
   done
 
   if $show_powerline; then
-    tmux set-option -ga status-right "#[fg=${green},bg=${yellow}]${right_sep}#[bg=${green},fg=${black},bold] #h #[bg=${black},fg=${green}]"
+    tmux set-option -ga status-right "#[fg=${green},bg=${yellow}]${right_sep}#[bg=${green},fg=${black},bold] #h #[fg=${green}]"
   else
     tmux set-option -ga status-right "#[fg=${green},bg=${blue}]${right_sep}#[bg=${green},fg=${black},bold] #h "
   fi
