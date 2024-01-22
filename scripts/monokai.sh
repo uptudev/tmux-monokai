@@ -122,7 +122,7 @@ main()
   fi
 
   # Status right
-  tmux set-option -g status-right "bg=default"
+  tmux set-option -g status-right "#[bg=default]"
 
   for plugin in "${plugins[@]}"; do
 
