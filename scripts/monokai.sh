@@ -115,10 +115,10 @@ main()
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[fg=${green},]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
+    tmux set-option -g status-left "fg=${green}#{?client_prefix,fg=${yellow}}#[bg=${green},fg=${black},bold]#{?client_prefix,bg=${yellow}} ${left_icon} fg=${green}#{?client_prefix,fg=${yellow}}${left_sep}"
     powerbg=${graywatch -n 3600 wttr.in}
   else
-    tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} "
+    tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,bg=${yellow}} ${left_icon} "
   fi
 
   # Status right
