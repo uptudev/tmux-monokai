@@ -31,7 +31,7 @@ main()
   show_synchronize_panes_label=$(get_tmux_option "@monokai-synchronize-panes-label" "Sync")
   time_format=$(get_tmux_option "@monokai-time-format" "")
   show_ssh_session_port=$(get_tmux_option "@monokai-show-ssh-session-port" false)
-  IFS=' ' read -r -a plugins <<< $(get_tmux_option "@monokai-plugins" "battery network weather")
+  IFS=' ' read -r -a plugins <<< $(get_tmux_option "@monokai-plugins" "network-ping cpu-usage ram-usage")
   show_empty_plugins=$(get_tmux_option "@monokai-show-empty-plugins" true)
 
   # Monokai Pro Color Pallette
