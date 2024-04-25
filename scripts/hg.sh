@@ -3,36 +3,38 @@
 current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $current_dir/utils.sh
 
-IFS=' ' read -r -a hide_status <<< $(get_tmux_option "@monokai-git-disable-status" "false")
-IFS=' ' read -r -a current_symbol <<< $(get_tmux_option "@monokai-git-show-current-symbol" "✓")
-IFS=' ' read -r -a diff_symbol <<< $(get_tmux_option "@monokai-git-show-diff-symbol" "!")
-IFS=' ' read -r -a no_repo_message <<< $(get_tmux_option "@monokai-git-no-repo-message" "")
-IFS=' ' read -r -a no_untracked_files <<< $(get_tmux_option "@monokai-git-no-untracked-files" "false")
-IFS=' ' read -r -a show_remote_status <<< $(get_tmux_option "@monokai-git-show-remote-status" "false")
+IFS=' ' read -r -a hide_status <<< $(get_tmux_option "@monokai-hg-disable-status" "false")
+IFS=' ' read -r -a current_symbol <<< $(get_tmux_option "@monokai-hg-show-current-symbol" "✓")
+IFS=' ' read -r -a diff_symbol <<< $(get_tmux_option "@monokai-hg-show-diff-symbol" "!")
+IFS=' ' read -r -a no_repo_message <<< $(get_tmux_option "@monokai-hg-no-repo-message" "")
+IFS=' ' read -r -a no_untracked_files <<< $(get_tmux_option "@monokai-hg-no-untracked-files" "false")
 
-# Get added, modified, updated and deleted files from git status
+# Get added, modified, and removed files from hg status
 getChanges()
 {
    declare -i added=0;
-   declare -i modified=0;
-   declare -i updated=0;
    declare -i deleted=0;
+   declare -i modified=0;
+   declare -i removed=0;
+   declare -i untracked=0;
 
-for i in $(git -C $path --no-optional-locks status -s)
-
+for i in $(hg -R $path status -admru)
     do
       case $i in
       'A')
         added+=1
       ;;
+      '!')
+       deleted+=1
+      ;;
       'M')
         modified+=1
       ;;
-      'U')
-        updated+=1
+      'R')
+       removed+=1
       ;;
-      'D')
-       deleted+=1
+      '?')
+       untracked+=1
       ;;
 
       esac
@@ -41,8 +43,9 @@ for i in $(git -C $path --no-optional-locks status -s)
     output=""
     [ $added -gt 0 ] && output+="${added}A"
     [ $modified -gt 0 ] && output+=" ${modified}M"
-    [ $updated -gt 0 ] && output+=" ${updated}U"
     [ $deleted -gt 0 ] && output+=" ${deleted}D"
+    [ $removed -gt 0 ] && output+=" ${removed}R"
+    [ $no_untracked_files == "false" -a $untracked -gt 0 ] && output+=" ${untracked}?"
 
     echo $output
 }
@@ -79,9 +82,9 @@ checkEmptySymbol()
 # check to see if the current repo is not up to date with HEAD
 checkForChanges()
 {
-    [ $no_untracked_files == "false" ] && no_untracked="" || no_untracked="-uno"
-    if [ "$(checkForGitDir)" == "true" ]; then
-        if [ "$(git -C $path --no-optional-locks status -s $no_untracked)" != "" ]; then
+    [ $no_untracked_files == "false" ] && no_untracked="-u" || no_untracked=""
+    if [ "$(checkForHgDir)" == "true" ]; then
+        if [ "$(hg -R $path status -admr $no_untracked)" != "" ]; then
             echo "true"
         else
             echo "false"
@@ -91,10 +94,10 @@ checkForChanges()
     fi
 }
 
-# check if a git repo exists in the directory
-checkForGitDir()
+# check if a hg repo exists in the directory
+checkForHgDir()
 {
-    if [ "$(git -C $path rev-parse --abbrev-ref HEAD)" != "" ]; then
+    if [ "$(hg -R $path branch)" != "" ]; then
         echo "true"
     else
         echo "false"
@@ -104,35 +107,17 @@ checkForGitDir()
 # return branch name if there is one
 getBranch()
 {
-    if [ $(checkForGitDir) == "true" ]; then
-        echo $(git -C $path rev-parse --abbrev-ref HEAD)
+    if [ $(checkForHgDir) == "true" ]; then
+        echo $(hg -R $path branch)
     else
         echo $no_repo_message
     fi
 }
 
-getRemoteInfo()
-{
-    base=$(git -C $path for-each-ref --format='%(upstream:short) %(upstream:track)' "$(git -C $path symbolic-ref -q HEAD)")
-    remote=$(echo "$base" | cut -d" " -f1)
-    out=""
-
-    if [ -n "$remote" ]; then
-        out="...$remote"
-        ahead=$(echo "$base" | grep -E -o 'ahead[ [:digit:]]+' | cut -d" " -f2)
-        behind=$(echo "$base" | grep -E -o 'behind[ [:digit:]]+' | cut -d" " -f2)
-
-        [ -n "$ahead" ] && out+=" +$ahead"
-        [ -n "$behind" ] && out+=" -$behind"
-    fi
-
-    echo "$out"
-}
-
 # return the final message for the status bar
 getMessage()
 {
-    if [ $(checkForGitDir) == "true" ]; then
+    if [ $(checkForHgDir) == "true" ]; then
         branch="$(getBranch)"
         output=""
 
@@ -162,7 +147,6 @@ getMessage()
             fi
         fi
 
-        [ "$show_remote_status" == "true" ] && output+=$(getRemoteInfo)
         echo "$output"
     else
         echo $no_repo_message
