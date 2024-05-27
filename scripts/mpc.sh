@@ -10,14 +10,14 @@ main()
   # storing the refresh rate in the variable RATE, default is 5
   RATE=$(get_tmux_option "@monokai-refresh-rate" 5)
 
-  if ! command -v spt &> /dev/null
+  if ! command -v mpc &> /dev/null
   then
     exit 1
   fi
 
-  FORMAT=$(get_tmux_option "@monokai-spotify-tui-format" "%f %s %t - %a")
-  spotify_playback=$(spt playback -f "${FORMAT}")
-  echo ${spotify_playback}
+  FORMAT=$(get_tmux_option "@monokai-mpc-format" "%title% - %artist%")
+  mpc_playback=$(mpc current -f "${FORMAT}")
+  echo ${mpc_playback}
 
 }
 
