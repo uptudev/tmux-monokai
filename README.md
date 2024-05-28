@@ -1,16 +1,22 @@
-# Dracula for [tmux](https://github.com/tmux/tmux/wiki)
+# Monokai Pro for tmux
 
-> A dark theme for [tmux](https://github.com/tmux/tmux/wiki)
+A customized version of the [Dracula theme](https://github.com/dracula/tmux) for [tmux](https://github.com/tmux/tmux/wiki), using colors from [Monokai Pro](https://monokai.pro/).
 
 ![Screenshot](./screenshot.png)
 
 ## Install
 
-All instructions can be found at [draculatheme.com/tmux](https://draculatheme.com/tmux).
+Using [tpm](https://github.com/tmux-plugins/tpm), add the following to your `.tmux.conf`:
+
+```
+set -g @plugin 'maxpetretta/tmux-monokai-pro'
+```
 
 ## Configuration
 
 Configuration and options can be found at [draculatheme.com/tmux](https://draculatheme.com/tmux).
+
+**NOTE**: Replace all mentions of `@dracula` with `@monokai`
 
 ## Features
 
@@ -43,23 +49,14 @@ Configuration and options can be found at [draculatheme.com/tmux](https://dracul
 
 ## Compatibility
 
-Compatible with macOS and Linux. Tested on tmux 3.1b
-FreeBSD compatibility is in development
-
-## Team
-
-This theme is maintained by the following person(s) and a bunch of [awesome contributors](https://github.com/dracula/tmux/graphs/contributors).
-
-| [![Dane Williams](https://avatars2.githubusercontent.com/u/22798229?s=70&v=4",)](https://github.com/danerwilliams) | [![Ethan Edwards](https://avatars1.githubusercontent.com/u/60861925?s=70&v=4)](https://github.com/ethancedwards8) |
-| ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| [Dane Williams](https://github.com/danerwilliams)                                                                  | [Ethan Edwards](https://github.com/ethancedwards8)                                                                |
-
-## Community
-
-- [Twitter](https://twitter.com/draculatheme) - Best for getting updates about themes and new stuff.
-- [GitHub](https://github.com/dracula/dracula-theme/discussions) - Best for asking questions and discussing issues.
-- [Discord](https://draculatheme.com/discord-invite) - Best for hanging out with the community.
+Tested on macOS Monterey, with & without powerline symbols
 
 ## License
 
 [MIT License](./LICENSE)
+
+## Credits
+
+All credit goes to [dracula/tmux](https://github.com/dracula/tmux), which this theme was forked from
+
+Special thanks to [Monokai](https://monokai.nl/) for creating the One True Color Theme <3
