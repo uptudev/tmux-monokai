@@ -57,7 +57,7 @@ main() {
     echo "$cpu_label $(get_load)"
   else
     cpu_percent=$(get_percent)
-    echo "$cpu_label $cpu_percent"
+    echo "$cpu_label$cpu_percent"
   fi
   sleep $RATE
 }
