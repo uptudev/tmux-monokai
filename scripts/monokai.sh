@@ -37,6 +37,7 @@ main()
   # Monokai Pro Color Pallette
   white='#fcfcfa'
   black='#2d2a2e'
+  dark_gray='#403e41'
   gray='#727072'
   red='#ff6188'
   green='#a9dc76'
@@ -124,12 +125,12 @@ main()
   tmux set-option -g message-style "bg=${gray},fg=${white}"
 
   # status bar
-  tmux set-option -g status-style "bg=${gray},fg=${white}"
+  tmux set-option -g status-style "bg=${dark_gray},fg=${white}"
 
   # Status left
   if $show_powerline; then
-    tmux set-option -g status-left "#[fg=${green},bg=${black}]#{?client_prefix,#[fg=${magenta}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${magenta}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${magenta}],}${left_sep}"
-    powerbg=${gray}
+    tmux set-option -g status-left "#[fg=${green},bg=${black}]#{?client_prefix,#[fg=${magenta}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${magenta}],} ${left_icon} #[fg=${green},bg=${dark_gray}]#{?client_prefix,#[fg=${magenta}],}${left_sep}"
+    powerbg=${dark_gray}
   else
     tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${magenta}],} ${left_icon} "
   fi
@@ -208,7 +209,7 @@ main()
       script="#($current_dir/network_bandwidth.sh)"
 
     elif [ $plugin = "network-ping" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "gray white")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "dark_gray white")
       script="#($current_dir/network_ping.sh)"
 
     elif [ $plugin = "network-vpn" ]; then
@@ -248,7 +249,7 @@ main()
       script="#($current_dir/weather_wrapper.sh $show_fahrenheit $show_location '$fixed_location')"
 
     elif [ $plugin = "time" ]; then
-      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-time-colors" "green white")
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-time-colors" "green black")
       if [ -n "$time_format" ]; then
         script=${time_format}
       else
@@ -292,19 +293,19 @@ main()
   done
 
   if $show_powerline; then
-    tmux set-option -ga status-right "#[fg=${green},bg=${yellow}]${right_sep}#[bg=${green},fg=${black},bold] #h #[bg=${black},fg=${green}]"
+    tmux set-option -ga status-right "#[fg=${green},bg=${magenta}]${right_sep}#[bg=${green},fg=${black},bold] #h #[bg=${black},fg=${green}]"
   else
     tmux set-option -ga status-right "#[fg=${green},bg=${blue}]${right_sep}#[bg=${green},fg=${black},bold] #h "
   fi
 
   # Window option
   if $show_powerline; then
-    tmux set-window-option -g window-status-current-format "#[bg=${white},fg=${gray}]${left_sep} #[fg=${black},bg=${white}]#I #W${current_flags} #[bg=${gray},fg=${white}]${left_sep}"
+    tmux set-window-option -g window-status-current-format "#[bg=${gray},fg=${dark_gray}]${left_sep} #[fg=${white},bg=${gray}]#I #W${current_flags} #[bg=${dark_gray},fg=${gray}]${left_sep}"
   else
-    tmux set-window-option -g window-status-current-format "#[fg=${gray},bg=${white}] #I #W${current_flags} "
+    tmux set-window-option -g window-status-current-format "#[fg=${white},bg=${gray}] #I #W${current_flags} "
   fi
 
-  tmux set-window-option -g window-status-format "#[bg=${gray},fg=${gray}]${left_sep} #[fg=${white},bg=${gray}]#I #W${flags} #[bg=${gray},fg=${gray}]${left_sep}"
+  tmux set-window-option -g window-status-format "#[bg=${dark_gray},fg=${dark_gray}]${left_sep} #[fg=${white},bg=${dark_gray}]#I #W${flags} #[bg=${dark_gray},fg=${dark_gray}]${left_sep}"
   tmux set-window-option -g window-status-activity-style "bold"
   tmux set-window-option -g window-status-bell-style "bold"
   tmux set-window-option -g window-status-separator ""

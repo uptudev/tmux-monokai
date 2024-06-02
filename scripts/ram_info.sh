@@ -22,7 +22,7 @@ get_ratio()
       # System Profiler performs an activation lock check, which can result in
       # time outs or a lagged response. (~10 seconds)
       # total_mem=$(system_profiler SPHardwareDataType | grep "Memory:" | awk '{print $2 $3}')
-      total_mem=$(sysctl -n hw.memsize | awk '{print $0/1024/1024/1024 " GB"}')
+      total_mem=$(sysctl -n hw.memsize | awk '{print $0/1024/1024/1024 "GB"}')
       if ((used_mem < 1024 )); then
         echo "${used_mem}MB/$total_mem"
       else
