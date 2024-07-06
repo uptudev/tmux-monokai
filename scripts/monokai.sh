@@ -142,7 +142,6 @@ main()
     if [ $plugin = "git" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@monokai-git-colors" "green black")
         script="#($current_dir/git.sh)"
-    fi
 
     elif [ $plugin = "cwd" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@monokai-cwd-colors" "dark_gray white")
