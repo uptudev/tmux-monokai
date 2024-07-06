@@ -128,13 +128,8 @@ main()
 
   # Status left
   if $show_powerline; then
-<<<<<<< HEAD
     tmux set-option -g status-left "#[fg=${green}]#{?client_prefix,#[fg=${yellow}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${yellow}],} ${left_icon} #[fg=${green},bg=${gray}]#{?client_prefix,#[fg=${yellow}],}${left_sep}"
     powerbg=default
-=======
-    tmux set-option -g status-left "#[fg=${green},]#{?client_prefix,#[fg=${magenta}],}#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${magenta}],} ${left_icon} #[fg=${green},]#{?client_prefix,#[fg=${magenta}],}${left_sep}"
-    powerbg=${dark_gray}
->>>>>>> maxpetretta-master
   else
     tmux set-option -g status-left "#[bg=${green},fg=${black},bold]#{?client_prefix,#[bg=${magenta}],} ${left_icon} "
   fi
@@ -144,23 +139,10 @@ main()
 
   for plugin in "${plugins[@]}"; do
 
-<<<<<<< HEAD
     if [ $plugin = "git" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@monokai-git-colors" "green black")
         script="#($current_dir/git.sh)"
     fi
-=======
-    if case $plugin in custom:*) true;; *) false;; esac; then
-      script=${plugin#"custom:"}
-      if [[ -x "${current_dir}/${script}" ]]; then
-        IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-custom-plugin-colors" "blue black")
-        script="#($current_dir/${script})"
-      else
-        colors[0]="red"
-        colors[1]="black"
-        script="${script} not found!"
-      fi
->>>>>>> maxpetretta-master
 
     elif [ $plugin = "cwd" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@monokai-cwd-colors" "dark_gray white")
