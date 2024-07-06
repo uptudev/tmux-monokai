@@ -83,6 +83,12 @@ Enable high contrast pane border
 set -g @monokai-border-contrast true
 ```
 
+Hide empty plugins
+
+```bash
+set -g @monokai-show-empty-plugins false
+```
+
 #### cpu-usage options
 
 Customize label
@@ -110,6 +116,8 @@ set -g @monokai-battery-label "Battery"
 
 #### gpu-usage options
 
+Note, currently only the Linux NVIDIA Proprietary drivers are supported. Nouveau and AMD Graphics Cards support are still under development.
+
 Customize label
 
 ```bash
@@ -124,6 +132,26 @@ Customize label
 set -g @monokai-ram-usage-label "RAM"
 ```
 
+#### tmux-ram-usage options
+
+Customize label
+
+```bash
+set -g @monokai-tmux-ram-usage-label "MEM"
+```
+
+#### network-bandwidth
+
+You can configure which network interface you want to view the bandwidth,
+Displaying of the interface name, The interval between each bandwidth update.
+The most common interfaces name are `eth0` for a wired connection and `wlan0` for a wireless connection.
+
+```bash
+set -g @monokai-network-bandwidth eth0
+set -g @monokai-network-bandwidth-interval 0
+set -g @monokai-network-bandwidth-show-interface true
+```
+
 #### network-ping options
 
 You can configure which server (hostname, IP) you want to ping and at which rate (in seconds). Default is google.com at every 5 seconds.
@@ -131,6 +159,14 @@ You can configure which server (hostname, IP) you want to ping and at which rate
 ```bash
 set -g @monokai-ping-server "google.com"
 set -g @monokai-ping-rate 5
+```
+
+### ssh-session options
+
+Show SSH session port
+
+```bash
+set -g @monokai-show-ssh-session-port true
 ```
 
 #### time options
@@ -152,6 +188,14 @@ Enable military time
 ```bash
 set -g @monokai-military-time true
 ```
+
+Set custom time format e.g (2023-01-01 14:00)
+
+```bash
+set -g @monokai-time-format "%F %R"
+```
+
+See [[this page]](https://man7.org/linux/man-pages/man1/date.1.html) for other format symbols.
 
 #### git options
 
@@ -189,6 +233,49 @@ Hide untracked files from being displayed as local changes
 set -g @monokai-git-no-untracked-files true
 ```
 
+Show remote tracking branch together with diverge/sync state
+
+```bash
+# default is false
+set -g @monokai-git-show-remote-status true
+```
+
+#### hg options
+
+Hide details of hg changes
+
+```bash
+set -g @monokai-hg-disable-status true
+```
+
+Set symbol to use for when branch is up to date with HEAD
+
+```bash
+#default is ✓.Avoid using non unicode characters that bash uses like $, * and !
+set -g @monokai-hg-show-current-symbol ✓
+```
+
+Set symbol to use for when branch diverges from HEAD
+
+```bash
+#default is unicode !.Avoid bash special characters
+set -g @monokai-hg-show-diff-symbol !
+```
+
+Set symbol or message to use when the current pane has no hg repo
+
+```bash
+#default is unicode no message
+set -g @monokai-hg-no-repo-message ""
+```
+
+Hide untracked files from being displayed as local changes
+
+```bash
+#default is false
+set -g @monokai-hg-no-untracked-files false
+```
+
 #### weather options
 
 Switch from default fahrenheit to celsius
@@ -207,4 +294,78 @@ Hide your location
 
 ```bash
 set -g @monokai-show-location false
+```
+
+#### synchronize-panes options
+
+Customize label
+
+```bash
+set -g @monokai-synchronize-panes-label "Sync"
+```
+
+#### attached-clients options
+
+Set the minimum number of clients to show (otherwise, show nothing)
+
+```bash
+set -g @monokai-clients-minimum 1
+```
+
+Set the label when there is one client, or more than one client
+
+```bash
+set -g @monokai-clients-singular client
+set -g @monokai-clients-plural clients
+```
+
+#### Kubernetes options
+
+Add prefix label before the context
+
+```bash
+set -g @monokai-kubernetes-context-label "Some Label"
+```
+
+Hide user from the context string
+
+```
+set -g @monokai-kubernetes-hide-user true
+```
+
+Hide ARN (show only cluster name) - Available for EKS only (only available for cluster names that are ARNs)
+
+```
+set -g @monokai-kubernetes-eks-hide-arn true
+```
+
+Extract the account as a prefix to the cluster name - Available for EKS only (only available for cluster names that are ARNs)
+
+````
+set -g @monokai-kubernetes-eks-extract-account true
+
+#### continuum options
+
+Set the output mode. Options are:
+- **countdown**: Show a T- countdown to the next save (default)
+- **time**: Show the time since the last save
+- **alert**: Hide output if no save has been performed recently
+- **interval**: Show the continuum save interval
+
+```bash
+set -g @monokai-continuum-mode countdown
+````
+
+Show if the last save was performed less than 60 seconds ago (default threshold is 15 seconds)
+
+```bash
+set -g @monokai-continuum-time-threshold 60
+```
+
+#### Playerctl format
+
+Set the playerctl metadata format
+
+```
+set -g @monokai-playerctl-format "►  {{ artist }} - {{ title }}"
 ```

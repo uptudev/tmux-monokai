@@ -3,12 +3,12 @@
 current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $current_dir/utils.sh
 
-IFS=' ' read -r -a hide_status <<< $(get_tmux_option "@monokai-git-disable-status" "false")
-IFS=' ' read -r -a current_symbol <<< $(get_tmux_option "@monokai-git-show-current-symbol" "✓")
-IFS=' ' read -r -a diff_symbol <<< $(get_tmux_option "@monokai-git-show-diff-symbol" "!")
-IFS=' ' read -r -a no_repo_message <<< $(get_tmux_option "@monokai-git-no-repo-message" "")
-IFS=' ' read -r -a no_untracked_files <<< $(get_tmux_option "@monokai-git-no-untracked-files" "false")
-IFS=' ' read -r -a show_remote_status <<< $(get_tmux_option "@monokai-git-show-remote-status" "false")
+IFS=' ' read -r -a hide_status <<< $(get_tmux_option "@monokai-fossil-disable-status" "false")
+IFS=' ' read -r -a current_symbol <<< $(get_tmux_option "@monokai-fossil-show-current-symbol" "✓")
+IFS=' ' read -r -a diff_symbol <<< $(get_tmux_option "@monokai-fossil-show-diff-symbol" "!")
+IFS=' ' read -r -a no_repo_message <<< $(get_tmux_option "@monokai-fossil-no-repo-message" "")
+IFS=' ' read -r -a no_untracked_files <<< $(get_tmux_option "@monokai-fossil-no-untracked-files" "false")
+IFS=' ' read -r -a show_remote_status <<< $(get_tmux_option "@monokai-fossil-show-remote-status" "false")
 
 # Get added, modified, updated and deleted files from git status
 getChanges()
@@ -18,20 +18,20 @@ getChanges()
    declare -i updated=0;
    declare -i deleted=0;
 
-for i in $(git -C $path --no-optional-locks status -s)
+for i in $(cd $path; fossil changes --differ|cut -f1 -d' ')
 
     do
       case $i in
-      'A')
+      'EXTRA')
         added+=1
       ;;
-      'M')
+      'EDITED')
         modified+=1
       ;;
       'U')
         updated+=1
       ;;
-      'D')
+      'DELETED')
        deleted+=1
       ;;
 
@@ -79,9 +79,8 @@ checkEmptySymbol()
 # check to see if the current repo is not up to date with HEAD
 checkForChanges()
 {
-    [ $no_untracked_files == "false" ] && no_untracked="" || no_untracked="-uno"
-    if [ "$(checkForGitDir)" == "true" ]; then
-        if [ "$(git -C $path --no-optional-locks status -s $no_untracked)" != "" ]; then
+    if [ "$(checkForFossilDir)" == "true" ]; then
+        if [ "$(cd $path; fossil changes --differ)" != "" ]; then
             echo "true"
         else
             echo "false"
@@ -92,9 +91,9 @@ checkForChanges()
 }
 
 # check if a git repo exists in the directory
-checkForGitDir()
+checkForFossilDir()
 {
-    if [ "$(git -C $path rev-parse --abbrev-ref HEAD)" != "" ]; then
+    if [ -f ${path}/.fslckout ]; then
         echo "true"
     else
         echo "false"
@@ -104,8 +103,8 @@ checkForGitDir()
 # return branch name if there is one
 getBranch()
 {
-    if [ $(checkForGitDir) == "true" ]; then
-        echo $(git -C $path rev-parse --abbrev-ref HEAD)
+    if [ $(checkForFossilDir) == "true" ]; then
+        echo $(cd $path; fossil branch current)
     else
         echo $no_repo_message
     fi
@@ -113,7 +112,7 @@ getBranch()
 
 getRemoteInfo()
 {
-    base=$(git -C $path for-each-ref --format='%(upstream:short) %(upstream:track)' "$(git -C $path symbolic-ref -q HEAD)")
+    base=$(cd $path; fossil branch current)
     remote=$(echo "$base" | cut -d" " -f1)
     out=""
 
@@ -132,7 +131,7 @@ getRemoteInfo()
 # return the final message for the status bar
 getMessage()
 {
-    if [ $(checkForGitDir) == "true" ]; then
+    if [ $(checkForFossilDir) == "true" ]; then
         branch="$(getBranch)"
         output=""
 

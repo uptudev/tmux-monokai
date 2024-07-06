@@ -14,7 +14,7 @@ ping_function() {
   Linux | Darwin)
     # storing the hostname/IP in the variable PINGSERVER, default is 1.1.1.1 (Cloudflare)
     pingserver=$(get_tmux_option "@monokai-ping-server" "1.1.1.1")
-    pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk '{print $4}' | cut -d '/' -f 2 | cut -c1-2)
+    pingtime=$(ping -c 1 "$pingserver" | tail -1 | awk '{print $4}' | cut -d '/' -f 2 | cut -c1-2 | sed 's/\.$//')
     echo "$pingtime ms"
     ;;
 
