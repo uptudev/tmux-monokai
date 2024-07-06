@@ -201,7 +201,7 @@ main()
       script="#($current_dir/network_bandwidth.sh)"
 
     elif [ $plugin = "network-ping" ]; then
-      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "dark_gray white")
+      IFS=' ' read -r -a colors <<<$(get_tmux_option "@monokai-network-ping-colors" "gray white")
       script="#($current_dir/network_ping.sh)"
 
     elif [ $plugin = "network-vpn" ]; then
